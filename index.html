@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        #input-value {
+            position: relative;
+            left: 140px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div id="input-value" class="input-group mb-3">
+                <input class="inputValue" type="text" class="form-control"
+                    placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger submit">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="name"></h1>
+            <h3><span id="temp"></span>&deg;C</h3>
+            <h1 class="cloud">Clouds</h1>
+        </div>
+    </div>
+    <script>
+        const input = document.querySelector('.inputValue');
+        const main = document.querySelector('#name');
+        const temp = document.getElementById("temp");
+        const button = document.querySelector(".submit");
+        const clouds = document.querySelector(".cloud");
+        button.addEventListener('click', function () {
+            fetch('https://api.openweathermap.org/data/2.5/weather?q=' + input.value + '&appid=1f30eb5492feb9a7358a53b63808cc90')
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+
+                    main.innerText = data['name'];
+
+                    const Temperature = Math.floor((data['main']['temp']) - 273.93);
+                    temp.innerText = Temperature;
+
+                    clouds.innerText = data['weather'][0]['main'];
+
+
+                })
+                .catch(err => alert("Wrong city name!"));
+        })
+
+
+
+    </script>
+</body>
+
+</html>
